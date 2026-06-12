@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: outclas-brain
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GBRAIN_PUBLIC_URL
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
