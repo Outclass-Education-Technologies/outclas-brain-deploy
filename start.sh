@@ -24,9 +24,12 @@ gbrain auth create "openclaw" 2>&1 || true
 echo "[gbrain] Token list:"
 gbrain auth list 2>&1 || true
 
-echo "[gbrain] Starting HTTP MCP server on port $PORT..."
+# TOKEN_TTL: 1 year in seconds (31536000) — tokens last ~1yr, no manual rotation needed
+TOKEN_TTL="${GBRAIN_TOKEN_TTL:-31536000}"
+
+echo "[gbrain] Starting HTTP MCP server on port $PORT (token TTL: ${TOKEN_TTL}s)..."
 if [ -n "$PUBLIC_URL" ]; then
-  exec gbrain serve --http --port "$PORT" --bind 0.0.0.0 --public-url "$PUBLIC_URL"
+  exec gbrain serve --http --port "$PORT" --bind 0.0.0.0 --public-url "$PUBLIC_URL" --token-ttl "$TOKEN_TTL"
 else
-  exec gbrain serve --http --port "$PORT" --bind 0.0.0.0
+  exec gbrain serve --http --port "$PORT" --bind 0.0.0.0 --token-ttl "$TOKEN_TTL"
 fi
