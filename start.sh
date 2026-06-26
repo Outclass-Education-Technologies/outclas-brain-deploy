@@ -49,12 +49,9 @@ else
   echo "[gbrain] OUTCLASS_CODE_DEPLOY_KEY not set; skipping Outclass code source clone"
 fi
 
-# Auto-create named auth tokens (idempotent — skips if name exists)
-echo "[gbrain] Creating auth tokens..."
-gbrain auth create "vlad" 2>&1 || true
-gbrain auth create "openclaw" 2>&1 || true
-echo "[gbrain] Token list:"
-gbrain auth list 2>&1 || true
+# Auth credentials are managed explicitly with `gbrain auth` / OAuth.
+# Do not mint or list tokens during deploy: token material can land in logs,
+# and repeated deploys leave duplicate active legacy tokens.
 
 # TOKEN_TTL: 1 year in seconds (31536000) — tokens last ~1yr, no manual rotation needed
 TOKEN_TTL="${GBRAIN_TOKEN_TTL:-31536000}"
