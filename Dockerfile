@@ -4,7 +4,7 @@ FROM oven/bun:1.3-alpine
 ENV PATH="/root/.bun/bin:$PATH"
 
 # Remote gbrain sources clone GitHub repos server-side.
-RUN apk add --no-cache git
+RUN apk add --no-cache git openssh-client
 
 # Install gbrain from GitHub (NEVER from npm)
 RUN bun install -g github:garrytan/gbrain && gbrain --version
